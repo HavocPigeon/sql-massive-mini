@@ -21,6 +21,21 @@ app.get('/api/heroes', (req, res) => {
   })
 })
 
+app.post('/api/heroes', (req, res) => {
+    const hero = req.body;
+    req.app.get('db').create_hero({
+        name: hero.name,
+        streetName: hero.streetName,
+        age: hero.age,
+        powers: hero.powers,
+        pictureUrl: hero.pictureUrl,
+    }).then((newHeroes) => {
+        res.json(newHeroes[0]);
+    }).catch(error => {
+        res.status(500).send('There was an error on the server');
+    })
+})
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log('Server is listening on port ' + PORT + ' 🚀');
